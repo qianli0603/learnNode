@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/axios.min.js"></script>
+    <script>
+        function getProductList(typeid){
+            alert('list +' + typeid);
+            axios.get('/product_list?typeid=' + typeid).then(function(result){
+                console.log(result.data);
+            })
+        }
+        function getUserInfo(){
+            axios.get('/userinfo').then(function(result){
+                console.log(result.data);
+            })
+        }
+
+        function getProductsInof(){
+            axios.get('/product_info').then(function(result){
+                console.log(result.data);
+                const  productType = result.data;
+                let ulEl = document.getElementById('product');
+                for(let pTpye of productType){
+                    let liEl = document.createElement('li');
+                    liEl.innerHTML = `${pTpye.name}<button onclick="getProductList('${pTpye._id}')">详情</button>`
+                    ulEl.appendChild(liEl);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>hello world</h1>
+    <button onclick="getUserInfo()">获取用户信息</button>
+    <hr>
+    <button onclick="getProductsInof()">获取商品信息</button>
+    <ul id="product">
+
+    </ul>
+</body>
+</html>
